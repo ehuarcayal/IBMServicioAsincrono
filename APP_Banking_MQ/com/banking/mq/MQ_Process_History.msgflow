@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmFileOutput.msgnode="ComIbmFileOutput.msgnode" xmlns:ComIbmMQInput.msgnode="ComIbmMQInput.msgnode" xmlns:ComIbmTrace.msgnode="ComIbmTrace.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/banking/mq/MQ_Process_History.msgflow"
+    nsPrefix="com_banking_mq_MQ_Process_History.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.FilePathError" name="FilePathError" defaultValueLiteral="C:\Log\MQ_Banking_Error.log">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.FilePathDebug" name="FilePathDebug" defaultValueLiteral="C:\Log\MQ_Banking_Trace.log">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.destination" name="destination" lowerBound="1" eType="//@eClassifiers.1" defaultValueLiteral="file"/>
+    <translation xmi:type="utility:TranslatableString" key="MQ_Process_History" bundleName="com/banking/mq/MQ_Process_History" pluginId="APP_Banking_MQ"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/APP_Banking_MQ/icons/full/obj16/MQ_Process_History.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/APP_Banking_MQ/icons/full/obj30/MQ_Process_History.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmMQInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="53,143" queueName="IN.QUEUE.HISTORY.TRANSACTION" messageDomainProperty="JSON">
+        <translation xmi:type="utility:ConstantString" string="IN.QUEUE.HISTORY.TRANSACTION"/>
+      </nodes>
+      <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="262,143" pattern="[Input-REST] - [${CURRENT_TIMESTAMP} ]&#xD;&#xA;--------------------------------------------------------------------------------------&#xD;&#xA;Body = ${Body}&#xD;&#xA;Env= ${Environment}">
+        <translation xmi:type="utility:ConstantString" string="T_InputMQ"/>
+      </nodes>
+      <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="263,68" destination="file" pattern="[ERROR] - [${CURRENT_TIMESTAMP} ]&#xD;&#xA;--------------------------------------------------------------------------------------&#xD;&#xA;ExceptionList = ${ExceptionList}&#xD;&#xA;Body = ${Body}&#xD;&#xA;Env= ${Environment}&#xD;&#xA;">
+        <translation xmi:type="utility:ConstantString" string="T_Error"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="353,143" computeExpression="esql://routine/com.banking.mq#MQ_Process_History_c_process.Main" computeMode="destinationAndMessage">
+        <translation xmi:type="utility:ConstantString" string="c_process"/>
+      </nodes>
+      <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_5" location="441,144">
+        <translation xmi:type="utility:ConstantString" string="T_SendMessague"/>
+      </nodes>
+      <nodes xmi:type="ComIbmFileOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_6" location="554,148" outputDirectory="C:\Archivos_Generados\" outputFilename="Generado.txt">
+        <translation xmi:type="utility:ConstantString" string="Salida de archivo"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.catch" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_5" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_6" targetNode="FCMComposite_1_6" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.Básicas" configurable="true" describedAttribute="Property.FilePathError">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.FilePathError" bundleName="com/banking/mq/MQ_Process_History" pluginId="APP_Banking_MQ"/>
+        <propertyDescriptor groupName="Group.Básicas" configurable="true" describedAttribute="Property.FilePathDebug">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.FilePathDebug" bundleName="com/banking/mq/MQ_Process_History" pluginId="APP_Banking_MQ"/>
+          <propertyDescriptor groupName="Group.Básicas" describedAttribute="Property.destination">
+            <propertyName xmi:type="utility:TranslatableString" key="Property.destination" bundleName="ComIbmTrace" pluginId="com.ibm.etools.mft.ibmnodes"/>
+          </propertyDescriptor>
+        </propertyDescriptor>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <attributeLinks promotedAttribute="Property.FilePathError" overriddenNodes="FCMComposite_1_3">
+      <overriddenAttribute href="ComIbmTrace.msgnode#Property.filePath"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.FilePathDebug" overriddenNodes="FCMComposite_1_2 FCMComposite_1_5">
+      <overriddenAttribute href="ComIbmTrace.msgnode#Property.filePath"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.destination" overriddenNodes="FCMComposite_1_2 FCMComposite_1_5 FCMComposite_1_3">
+      <overriddenAttribute href="ComIbmTrace.msgnode#Property.destination"/>
+    </attributeLinks>
+    <stickyBoard/>
+  </eClassifiers>
+  <eClassifiers xmi:type="ecore:EEnum">
+    <eLiterals xmi:id="destination.none" name="none"/>
+    <eLiterals xmi:id="destination.userTrace" name="userTrace" value="1"/>
+    <eLiterals xmi:id="destination.file" name="file" value="2"/>
+    <eLiterals xmi:id="destination.localError" name="localError" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>
